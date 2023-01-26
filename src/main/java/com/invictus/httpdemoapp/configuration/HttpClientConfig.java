@@ -24,7 +24,7 @@ public class HttpClientConfig {
     String httpProxyPassword;
 
     @Bean
-    public HttpClient getHttpClient() {
+    public HttpClient getHttpClientWithProxy() {
         HttpClientBuilder builder = HttpClientBuilder.create();
         HttpHost proxy = new HttpHost(httpProxyHost, httpProxyPort);
         DefaultProxyRoutePlanner planner = new DefaultProxyRoutePlanner(proxy);
@@ -37,6 +37,12 @@ public class HttpClientConfig {
         builder.setRoutePlanner(planner);
         builder.setDefaultCredentialsProvider(credentialsProvider);
 
+        return builder.build();
+    }
+
+    @Bean
+    public HttpClient getHttpClientWithNoProxy() {
+        HttpClientBuilder builder = HttpClientBuilder.create();
         return builder.build();
     }
 }

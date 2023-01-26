@@ -8,6 +8,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,8 +25,13 @@ import java.io.IOException;
 public class HttpController {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpController.class);
 
+    @Qualifier("getHttpClientWithProxy")
     @Autowired
-    private HttpClient httpClient;
+    private HttpClient httpClientWithProxy;
+
+    @Qualifier("getHttpClientWithNoProxy")
+    @Autowired
+    private HttpClient httpClientWithNoProxy;
 
 
     @GetMapping(value = "/get", produces = MediaType.TEXT_HTML_VALUE)
@@ -36,7 +42,7 @@ public class HttpController {
 
         try {
             HttpResponse response;
-            response = httpClient.execute(httpGet);
+            response = httpClientWithProxy.execute(httpGet);
             String responseString = EntityUtils.toString(response.getEntity());
             long endTime = System.currentTimeMillis();
             long timeTaken = endTime - startTime;
