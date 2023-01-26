@@ -1,5 +1,5 @@
-http.proxy.host=servercountry-in.zproxy.lum-superproxy.io
-http.proxy.username=lum-customer-c_037bfee9-zone-fk_dcip
-http.proxy.password=80cb239896ca
-http.proxy.port=22225
+http.proxy.host=
+http.proxy.username=
+http.proxy.password=
+http.proxy.port=
 server.port=8080
