@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.invictus.*">
+    <Properties>
+        <Property name="DATE_FORMAT" value="yyyy-MM-dd HH:mm:ss,SSS"/>
+    </Properties>
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{DATE_FORMAT} %p [%X{REQUEST_IDENTIFIER}][%t][%c{45}][%M] - %msg%n"/>
+        </Console>
+
+        <RollingFile name="RollingFileAppender" append="true" filename="${sys:logDir}/application.log"
+                     filePattern="${sys:logDir}/archived/application.%d{yyyy-MM-dd-HH}.log.gz">
+            <PatternLayout>
+                <Pattern>%d{DATE_FORMAT} %p [%X{REQUEST_IDENTIFIER}][%t][%c{45}][%M] - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="4" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.apache.http.impl.conn.DefaultClientConnection" level="trace"/>
+        <Logger name="org.apache.http.headers" level="trace"/>
+        <AsyncRoot level="trace" includeLocation="true">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>
